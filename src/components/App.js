@@ -8,22 +8,22 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState(null);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!query) return;
+  const handleSearch = (e) => {
+  e.preventDefault();
+  if (!query) return;
 
-    try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}&units=metric`
-      );
-      const data = await res.json();
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}&units=metric`)
+    .then(res => res.json())
+    .then(data => {
       setWeather(data);
-    } catch (err) {
-      console.error("Error fetching weather data:", err);
+    })
+    .catch(err => {
+      console.error(err);
       setWeather(null);
-    }
-    setQuery(""); // clear input after search
-  };
+    });
+
+  setQuery("");
+};
 
   return (
     <div>
